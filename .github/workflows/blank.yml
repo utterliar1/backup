@@ -13,6 +13,7 @@ jobs:
       run: |
         git clone -b main https://github.com/utterliar2/SyncScript.git ./utterliar2
         cp ./utterliar2/.github/workflows/* ./
+        rm -rf ./utterliar2
     - name: 'Commit Files'
       id: commit
       run: |

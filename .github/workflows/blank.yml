@@ -1,0 +1,27 @@
+name: all-in-one
+on:
+  schedule:
+    - cron: 5 22 * * *
+  watch:
+    types: started
+jobs:
+  build:
+    runs-on: Ubuntu-20.04  
+    steps:
+    - uses: actions/checkout@v2
+    - name: down
+      run: |
+        git clone -b main https://github.com/utterliar2/SyncScript.git ./utterliar2
+        cp ./utterliar2/.github/workflows/* ./
+    - name: 'Commit Files'
+      id: commit
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git diff --quiet && git diff --staged --quiet || git commit -am 'update'
+    - name: Push Dust
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.PAT }}
+        branch: main
